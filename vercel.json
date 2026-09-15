@@ -1,28 +1,24 @@
 ﻿{
   "services": {
     "frontend": {
-      "root": "frontend",
-      "framework": "vite",
-      "routePrefix": "/"
+      "root": "frontend/",
+      "framework": "vite"
     },
     "backend": {
-      "root": "backend",
-      "entrypoint": "server:app",
-      "routePrefix": "/api"
+      "root": "backend/",
+      "entrypoint": "server:app"
     }
   },
   "rewrites": [
     {
       "source": "/api(/.*)?",
       "destination": {
-        "type": "service",
         "service": "backend"
       }
     },
     {
       "source": "/(.*)",
       "destination": {
-        "type": "service",
         "service": "frontend"
       }
     }
