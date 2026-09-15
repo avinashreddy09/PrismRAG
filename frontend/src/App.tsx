@@ -458,7 +458,7 @@ export default function App() {
 
   async function refreshSpace() {
     try {
-      const res = await fetch(${API}/space);
+      const res = await fetch(`${API}/space`);
       if (!res.ok) {
         console.error('Backend returned:', res.status);
         return;
