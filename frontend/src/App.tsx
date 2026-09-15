@@ -777,6 +777,20 @@ export default function App() {
           </section>
         </aside>
       </section>
+
+      <footer className="app-footer">
+        <p className="footer-line">
+          Copyright © 2026{" "}
+          <a
+            href="https://avinash-reddy-portfolio.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="author-name"
+          >
+            Avinash Reddy
+          </a>
+        </p>
+      </footer>
     </main>
   );
 }
