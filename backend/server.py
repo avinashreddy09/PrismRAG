@@ -136,7 +136,7 @@ async def _run_adk_agent(question: str, retrieval: dict[str, Any]) -> str:
     return final_text
 
 
-@app.get("/health")
+@app.get("/api/health")
 async def health():
     return {
         "status": "ok" if ADK_AVAILABLE and not SETUP_ERROR else "setup_required",
@@ -146,12 +146,12 @@ async def health():
     }
 
 
-@app.get("/space")
+@app.get("/api/space")
 async def space():
     return await run_in_threadpool(RAG_STORE.snapshot)
 
 
-@app.post("/sources/text")
+@app.post("/api/sources/text")
 async def add_text_source(req: TextSourceRequest):
     try:
         source = await run_in_threadpool(RAG_STORE.add_text_source, req.title, req.text, req.modality)
@@ -161,7 +161,7 @@ async def add_text_source(req: TextSourceRequest):
     return {"source": source.__dict__, "space": snapshot}
 
 
-@app.post("/sources/url")
+@app.post("/api/sources/url")
 async def add_url_source(req: UrlSourceRequest):
     try:
         url = str(req.url)
@@ -178,7 +178,7 @@ async def add_url_source(req: UrlSourceRequest):
     return {"source": source.__dict__, "space": snapshot}
 
 
-@app.post("/sources/file")
+@app.post("/api/sources/file")
 async def add_file_source(
     file: UploadFile = File(...),
     title: str = Form(""),
@@ -201,7 +201,7 @@ async def add_file_source(
     return {"source": source.__dict__, "space": snapshot}
 
 
-@app.delete("/sources/{source_id}")
+@app.delete("/api/sources/{source_id}")
 async def delete_source(source_id: str):
     removed = await run_in_threadpool(RAG_STORE.remove_source, source_id)
     if not removed:
@@ -209,7 +209,7 @@ async def delete_source(source_id: str):
     return {"deleted": source_id, "space": await run_in_threadpool(RAG_STORE.snapshot)}
 
 
-@app.post("/ask")
+@app.post("/api/ask")
 async def ask(req: AskRequest):
     if not req.question.strip():
         raise HTTPException(400, "Question is required.")
