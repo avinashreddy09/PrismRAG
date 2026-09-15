@@ -457,8 +457,17 @@ export default function App() {
   const projection = space?.projection?.method?.replace("_", " ").toUpperCase() ?? "PCA 3D";
 
   async function refreshSpace() {
-    const res = await fetch(`${API}/space`);
-    setSpace(await res.json());
+    try {
+      const res = await fetch(${API}/space);
+      if (!res.ok) {
+        console.error('Backend returned:', res.status);
+        return;
+      }
+      const data = await res.json();
+      setSpace(data);
+    } catch (err) {
+      console.error('Network error:', err);
+    }
   }
 
   useEffect(() => {
